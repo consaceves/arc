@@ -20,20 +20,18 @@ pub fn check_repo_dir(path: &String) -> bool {
     Path::new(path).join(Path::new(".arc_dvcs")).exists()
 }
 
-pub fn create_dir(path: &String, name: &String) -> bool {
+pub fn create_dir(path: &String, name: &String) {
     let p = Path::new(path).join(Path::new(name));
     fs::create_dir_all(p).expect("Unable to create dir");
-    true
 }
 
-pub fn write_lines(path: &String, name: &String, lines: Vec<String>) -> bool {
+pub fn write_lines(path: &String, name: &String, lines: Vec<String>) {
     let p = Path::new(path).join(Path::new(name));
     let mut f = File::create(p).expect("Unable to create file");
     for l in &lines {
         f.write_all(l.as_bytes()).expect("Unable to write line");
         f.write_all("\n".as_bytes()).expect("Unable to write line");
     }
-    true
 }
 
 pub fn read_lines(path: &String, name: &String) -> Vec<String> {

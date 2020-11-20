@@ -3,6 +3,7 @@ use crate::revid;
 
 pub struct Repo {
     pub root_path: String,
+    pub files: Vec<String>,
     pub revs: Vec<String>,
     pub cur_rev: String,
 }
@@ -30,7 +31,7 @@ pub fn init_repo(root_path: &String) {
         init_cur.push(format!("revision: {}", init_rev_id));
         mach::write_lines(&p, &String::from("current.txt"), init_cur);
         
-        //mach::write_lines(&p, &String::from("branch.txt"), Vec::new());
+        mach::write_lines(&p, &String::from("files.txt"), Vec::new());
     }
 }
 
@@ -38,19 +39,27 @@ pub fn open_repo(root_path: &String) -> Repo {
     let p = mach::join_paths(root_path, &String::from(".arc_dvcs"));
     // TODO: check if p exists
     
+    let files = mach::read_lines(&p, &String::from("files.txt"));
     let revs = mach::read_lines(&p, &String::from("revision.txt"));
     let cur = mach::read_lines(&p, &String::from("current.txt"));
     
-    let repo = Repo { root_path: root_path.to_string(), revs: revs, cur_rev: cur[0].clone() };
-    repo
+    Repo {
+        root_path: root_path.to_string(),
+        files: files,
+        revs: revs,
+        cur_rev: cur[0].clone()
+    }
 }
 
 pub fn print_repo(repo: &Repo) {
     println!("Repo info");
     println!("  Root @ {}", repo.root_path);
-    for l in &repo.revs {
-        println!("  Rev: {}", l);
-    }
     println!("  Current: {}", repo.cur_rev);
+    for l in &repo.revs {
+        println!("  Revision: {}", l);
+    }
+    for l in &repo.files {
+        println!("  File: {}", l);
+    }
 }
 

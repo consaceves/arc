@@ -1,0 +1,10 @@
+/Users/constanzaaceves/Documents/Fall20/CSC253/arc/arc/target/debug/deps/version_check-535e36517608a5e8.rmeta: /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/lib.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/version.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/channel.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/date.rs
+
+/Users/constanzaaceves/Documents/Fall20/CSC253/arc/arc/target/debug/deps/libversion_check-535e36517608a5e8.rlib: /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/lib.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/version.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/channel.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/date.rs
+
+/Users/constanzaaceves/Documents/Fall20/CSC253/arc/arc/target/debug/deps/version_check-535e36517608a5e8.d: /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/lib.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/version.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/channel.rs /Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/date.rs
+
+/Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/lib.rs:
+/Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/version.rs:
+/Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/channel.rs:
+/Users/constanzaaceves/.cargo/registry/src/github.com-1ecc6299db9ec823/version_check-0.9.2/src/date.rs:

@@ -1,5 +1,11 @@
 use clap::{App, Arg};
 
+mod cmd;
+mod mach;
+mod revid;
+mod repo;
+mod rev;
+
 fn main() {
     let matches = App::new("arc")
         .version("1.0")

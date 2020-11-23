@@ -1,0 +1,29 @@
+rm -rf .arc
+
+echo Init
+../target/debug/arc init
+echo
+
+echo Add 1
+../target/debug/arc add $(pwd)/1.txt
+echo
+echo Commit
+../target/debug/arc commit
+echo
+
+echo Add 1
+../target/debug/arc add $(pwd)/2.txt
+echo
+echo Commit
+../target/debug/arc commit
+echo
+
+echo Add 1
+../target/debug/arc add $(pwd)/3.txt
+echo
+echo Commit
+../target/debug/arc commit
+echo
+
+echo Done
+

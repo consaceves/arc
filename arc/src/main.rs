@@ -8,8 +8,8 @@ fn main() {
         .subcommand(
             App::new("init")
                 .about("Initialize repository")
-                .arg("-l, --list 'lists test values'"),
-        )
+                .arg(Arg::new("directory").about("Directory path").required(false))        
+            )
         .subcommand(
             App::new("clone")
                 .about("Clone a repository")

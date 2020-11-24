@@ -65,18 +65,22 @@ fn main() {
                 if init_matches.is_present("directory") {
                     directory = init_matches.value_of("directory").unwrap().to_string();
                 } else {
-                    //println!("init was used without directory");
                     directory = mach::get_cwd();
                 }
                 args.push(&directory);
-                //println!("New repository at {}", &directory);
-                //println!("{}", &args[0]);
                 cmd::command("init".to_string(), args)
             }
             Some(("clone", clone_matches)) => {
                 println!("arc clone was used");
             }
             Some(("add", add_matches)) => {
+                let mut args = Vec::new();
+                let mut path = String::new();
+                if add_matches.is_present("path") {
+                    path = add_matches.value_of("path").unwrap().to_string();
+                }
+                args.push(&path);
+                cmd::command("add".to_string(), args);
                 println!("arc add was used");
             }
             Some(("remove", remove_matches)) => {

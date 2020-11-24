@@ -21,16 +21,14 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
             r.print_repo();
         },
         "add" => {
-            if args.len() >= 3 {
-                let file_abs_path = mach::join_paths(&cwd, &args[2]);
-                let repo_root_path = mach::find_repo_root_path(&file_abs_path);
-                let file_rel_path = mach::find_rel_path(&repo_root_path, &file_abs_path);
-                
-                let mut r = repo::open_repo(&repo_root_path);
-                r.add(&file_rel_path);
-                r.print_repo();
-                r.save();
-            }
+            let file_abs_path = mach::join_paths(&cwd, &args[0]);
+            let repo_root_path = mach::find_repo_root_path(&file_abs_path);
+            let file_rel_path = mach::find_rel_path(&repo_root_path, &file_abs_path);
+            
+            let mut r = repo::open_repo(&repo_root_path);
+            r.add(&file_rel_path);
+            r.print_repo();
+            r.save();
         },
         "rm" => {
             if args.len() >= 3 {

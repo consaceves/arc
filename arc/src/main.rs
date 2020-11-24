@@ -128,7 +128,6 @@ fn main() {
                 }
                 args.push(&rev);
                 cmd::command("checkout".to_string(), args);
-                println!("arc checkout was used");
             }
             Some(("commit", commit_matches)) => {
                 let mut args = Vec::new();

@@ -56,6 +56,7 @@ fn main() {
         .subcommand(
             App::new("checkout")
                 .about("Check out a specific revision")
+                .arg(Arg::new("rev").about("Revision to checkout to").required(true))
         )
         .subcommand(
             App::new("commit")
@@ -120,6 +121,13 @@ fn main() {
                 println!("arc cat was used");
             }
             Some(("checkout", checkout_matches)) => {
+                let mut args = Vec::new();
+                let mut rev = String::new();
+                if checkout_matches.is_present("rev") {
+                    rev = checkout_matches.value_of("rev").unwrap().to_string();
+                }
+                args.push(&rev);
+                cmd::command("checkout".to_string(), args);
                 println!("arc checkout was used");
             }
             Some(("commit", commit_matches)) => {

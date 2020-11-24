@@ -44,12 +44,10 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
             r.save();
         }, 
         "checkout" => {
-            if args.len() >= 3 {
-                let repo_root_path = mach::find_repo_root_path(&cwd);
-                let mut r = repo::open_repo(&repo_root_path);
-                r.checkout(&args[2]);
-                r.save();
-            }
+            let repo_root_path = mach::find_repo_root_path(&cwd);
+            let mut r = repo::open_repo(&repo_root_path);
+            r.checkout(&args[0]);
+            r.save();
         },
         "merge" => {
             if args.len() >= 4 {

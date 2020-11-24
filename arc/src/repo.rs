@@ -6,6 +6,7 @@ use crate::rev;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Repo {
+    pub upstream: String,
     pub root_path: String,
     pub tracked_files: Vec<String>,
     pub all_revs: Vec<String>,
@@ -15,6 +16,7 @@ pub struct Repo {
 impl Repo {
     pub fn print_repo(&self) {
         println!("Repo info");
+        println!("  Upstream @ {}", self.upstream);
         println!("  Root @ {}", self.root_path);
         println!("  Current: {}", self.cur_rev);
         for l in &self.all_revs {
@@ -25,6 +27,10 @@ impl Repo {
         }
     }
     
+    pub fn set_upstream(&mut self, ups: &String) {
+        self.upstream = ups.to_string();
+    }
+    
     pub fn save(&self) {
         let p = mach::join_paths(&self.root_path, &String::from(".arc"));
         
@@ -32,15 +38,9 @@ impl Repo {
         mach::write_string(&p, &String::from("repo.json"), &serialized);
     }
     
-//    pub fn open_rev(&self, rev_id: &String) -> rev::Rev {
-//        rev::Rev {
-//            rev_id: rev_id.clone(),
-//            parent_trunk: String::from("None"),
-//            parent_other: String::from("None"),
-//            files: Vec::new()
-//        }
-//    }
-    
+    /*
+     * Rev
+     */
     pub fn new_rev(&mut self, trunk_id: &String, other_id: &String) -> rev::Rev {
         let r = rev::Rev {
             rev_id: revid::gen_rev_id(),
@@ -50,13 +50,36 @@ impl Repo {
         };
         
         let p = mach::join_paths(&self.root_path, &String::from(".arc"));
-        //let p2 = mach::join_paths(&p, &r.rev_id);
         mach::create_dir(&p, &r.rev_id);
         
         self.all_revs.push(r.rev_id.clone());
         r
     }
     
+    /*
+     * Copy
+     */
+    pub fn copy_from(&mut self, other: &Repo) {
+        for other_rev in &other.all_revs {
+            if !self.all_revs.contains(other_rev) {
+                let p = mach::join_paths(&self.root_path, &String::from(".arc"));
+                let p2 = mach::join_paths(&p, other_rev);
+                mach::create_dir(&p, other_rev);
+                
+                let op = mach::join_paths(&other.root_path, &String::from(".arc"));
+                let op2 = mach::join_paths(&op, other_rev);
+                
+                let or = rev::open_rev(&op2);
+                mach::copy_files(&p2, &op2, &or.files);
+                mach::copy_file(&p2, &op2, &"rev.json".to_string());
+                self.all_revs.push(other_rev.to_string());
+            }
+        }
+    }
+    
+    /*
+     * Add/Remove/Checkout/Commit
+     */
     pub fn add(&mut self, rel_path: &String) {
         if !self.tracked_files.contains(rel_path) {
             self.tracked_files.push(rel_path.clone())
@@ -81,6 +104,8 @@ impl Repo {
     
     pub fn checkout(&mut self, rev_id: &String) {
         if self.all_revs.contains(rev_id) {
+            println!("Checkout: {}", rev_id);
+            
             let p = mach::join_paths(&self.root_path, &String::from(".arc"));
             let p2 = mach::join_paths(&p, rev_id);
             let r = rev::open_rev(&p2);
@@ -90,6 +115,10 @@ impl Repo {
             mach::copy_files(&self.root_path, &p2, &r.files);
             
             self.cur_rev = rev_id.clone();
+            self.tracked_files.clear();
+            for f in &r.files {
+                self.tracked_files.push(f.to_string());
+            }
         }
     }
     
@@ -188,9 +217,9 @@ impl Repo {
                 let ok = self.merge3(&f, &anc_p, &"".to_string(), &oth_p, &p2);
                 if ok { println!("Merged @ {}", f); }
                 else  { println!("Conflict @ {}", f); }
-            } else if !tru_r.files.contains(&f) && oth_r.files.contains(&f) {
+            } else if tru_r.files.contains(&f) && !oth_r.files.contains(&f) {
                 // File deleted in one parent, check conflicts
-                let ok = self.merge3(&f, &anc_p, &"".to_string(), &oth_p, &p2);
+                let ok = self.merge3(&f, &anc_p, &tru_p, &"".to_string(), &p2);
                 if ok { println!("Merged @ {}", f); }
                 else  { println!("Conflict @ {}", f); }
             } else {
@@ -223,6 +252,10 @@ impl Repo {
                 println!("Merged @ {}", f);
             }
         }
+        
+        // Done
+        r.save(&p2);
+        self.cur_rev = r.rev_id.clone();
     }
 }
 
@@ -230,12 +263,13 @@ pub fn init_repo(root_path: &String) {
     println!("Init repo @ {}", root_path);
     let already_inited = mach::check_repo_dir(root_path);
     if already_inited {
-        println!("Must be an empty repo!");
+        println!("Must be an empty dir!");
     } else {
         mach::create_dir(root_path, &String::from(".arc"));
         let p = mach::join_paths(root_path, &String::from(".arc"));
         
         let mut repo = Repo {
+            upstream: "None".to_string(),
             root_path: root_path.clone(),
             tracked_files: Vec::new(),
             all_revs: Vec::new(),

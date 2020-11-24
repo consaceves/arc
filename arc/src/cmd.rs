@@ -55,6 +55,40 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
             r.merge(&args[0], &args[1]);
             r.save();
         },
+        "clone" => {
+            if args.len() >= 3 {
+                let src_repo_path = mach::find_repo_root_path(&args[2]);
+                let dst_repo_path = if args.len() >= 4 { &args[3] } else { &cwd };
+                
+                repo::init_repo(&dst_repo_path);
+                
+                let src_r = repo::open_repo(&src_repo_path);
+                let mut dst_r = repo::open_repo(&dst_repo_path);
+                
+                dst_r.set_upstream(&src_repo_path);
+                dst_r.copy_from(&src_r);
+                dst_r.checkout(&src_r.cur_rev);
+                dst_r.save();
+            }
+        },
+        "push" => {
+            let local_repo_path = mach::find_repo_root_path(&cwd);
+            let local_r = repo::open_repo(&local_repo_path);
+            
+            let mut upstream_r = repo::open_repo(&local_r.upstream);
+            upstream_r.copy_from(&local_r);
+            upstream_r.merge(&upstream_r.cur_rev.to_string(), &local_r.cur_rev.to_string());
+            upstream_r.save();
+        },
+        "pull" => {
+            let local_repo_path = mach::find_repo_root_path(&cwd);
+            let mut local_r = repo::open_repo(&local_repo_path);
+            
+            let upstream_r = repo::open_repo(&local_r.upstream);
+            local_r.copy_from(&upstream_r);
+            local_r.merge(&upstream_r.cur_rev.to_string(), &local_r.cur_rev.to_string());
+            local_r.save();
+        },
         _ => println!("unknown command: {}", cmd_name),
     }
 }

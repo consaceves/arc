@@ -83,6 +83,13 @@ fn main() {
                 cmd::command("add".to_string(), args);
             }
             Some(("remove", remove_matches)) => {
+                let mut args = Vec::new();
+                let mut path = String::new();
+                if remove_matches.is_present("path") {
+                    path = remove_matches.value_of("path").unwrap().to_string();
+                }
+                args.push(&path);
+                cmd::command("remove".to_string(), args);
                 println!("arc remove was used");
             }
             Some(("status", status_matches)) => {

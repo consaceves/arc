@@ -30,17 +30,15 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
             r.print_repo();
             r.save();
         },
-        "rm" => {
-            if args.len() >= 3 {
-                let file_abs_path = mach::join_paths(&cwd, &args[2]);
-                let repo_root_path = mach::find_repo_root_path(&file_abs_path);
-                let file_rel_path = mach::find_rel_path(&repo_root_path, &file_abs_path);
-                
-                let mut r = repo::open_repo(&repo_root_path);
-                r.remove(&file_rel_path);
-                r.print_repo();
-                r.save();
-            }
+        "remove" => {
+            let file_abs_path = mach::join_paths(&cwd, &args[0]);
+            let repo_root_path = mach::find_repo_root_path(&file_abs_path);
+            let file_rel_path = mach::find_rel_path(&repo_root_path, &file_abs_path);
+            
+            let mut r = repo::open_repo(&repo_root_path);
+            r.remove(&file_rel_path);
+            r.print_repo();
+            r.save();
         },
         "commit" => {
             let repo_root_path = mach::find_repo_root_path(&cwd);

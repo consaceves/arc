@@ -90,7 +90,6 @@ fn main() {
                 }
                 args.push(&path);
                 cmd::command("remove".to_string(), args);
-                println!("arc remove was used");
             }
             Some(("status", status_matches)) => {
                 println!("arc status was used");

@@ -9,11 +9,11 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
 
     match &cmd_name[..] {
         "init" => {
-            let mut repo_root_path = &args[0];
+            let repo_root_path = &args[0];
             repo::init_repo(repo_root_path);
         },
         "print" => {
-            let mut repo_root_path = &args[0];
+            let repo_root_path = &args[0];
             let r = repo::open_repo(repo_root_path);
             r.print_repo();
         },

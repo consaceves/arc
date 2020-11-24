@@ -37,10 +37,6 @@ fn main() {
                 .arg(Arg::new("path").about("Path of the removed file").required(true))
         )
         .subcommand(
-            App::new("status")
-                .about("Check the current status of the current repository")
-        )
-        .subcommand(
             App::new("heads")
                 .about("Show the current heads")
         )
@@ -108,9 +104,6 @@ fn main() {
                 args.push(&path);
                 cmd::command("remove".to_string(), args);
             }
-            Some(("status", status_matches)) => {
-                println!("arc status was used");
-            }
             Some(("heads", heads_matches)) => {
                 println!("arc heads was used");
             }
@@ -130,7 +123,7 @@ fn main() {
                 cmd::command("checkout".to_string(), args);
             }
             Some(("commit", commit_matches)) => {
-                let mut args = Vec::new();
+                let args = Vec::new();
                 println!("arc commit was used");
                 cmd::command("commit".to_string(), args)
             }

@@ -48,13 +48,13 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
                 r.print_repo();
                 r.save();
             }
-        },
+        },*/
         "commit" => {
             let repo_root_path = mach::find_repo_root_path(&cwd);
             let mut r = repo::open_repo(&repo_root_path);
             r.commit();
             r.save();
-        },
+        }, /*
         "checkout" => {
             if args.len() >= 3 {
                 let repo_root_path = mach::find_repo_root_path(&cwd);

@@ -98,7 +98,9 @@ fn main() {
                 println!("arc checkout was used");
             }
             Some(("commit", commit_matches)) => {
+                let mut args = Vec::new();
                 println!("arc commit was used");
+                cmd::command("commit".to_string(), args)
             }
             None => println!("No subcommand was used"),
             _ => unreachable!(), 

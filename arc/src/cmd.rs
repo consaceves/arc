@@ -6,15 +6,10 @@ use crate::repo;
 
 pub fn command(cmd_name: String, args: Vec<&String>) {
     let cwd = mach::get_cwd();
-    
-    //let cmd_name = &args[1];
+
     match &cmd_name[..] {
         "init" => {
-            let repo_root_path = &args[0];
-            //let mut repo_root_path = &cwd;
-            /*if args.is_empty(){
-                repo_root_path = &directory;
-            }*/
+            let mut repo_root_path = &args[0];
             repo::init_repo(repo_root_path);
         },
         "print" => {

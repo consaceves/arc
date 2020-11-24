@@ -58,6 +58,12 @@ fn main() {
             App::new("commit")
                 .about("Commit changes")
         )
+        .subcommand(
+            App::new("merge")
+                .about("Merge two revisions")
+                .arg(Arg::new("rev1").about("First revision to merge").required(true))
+                .arg(Arg::new("rev2").about("Second revision to merge").required(true))
+        )
         .get_matches();
 
         match matches.subcommand() {
@@ -126,6 +132,20 @@ fn main() {
                 let args = Vec::new();
                 println!("arc commit was used");
                 cmd::command("commit".to_string(), args)
+            }
+            Some(("merge", merge_matches)) => {
+                let mut args = Vec::new();
+                let mut rev1 = String::new();
+                let mut rev2 = String::new();
+                if merge_matches.is_present("rev1") {
+                    rev1 = merge_matches.value_of("rev1").unwrap().to_string();
+                }
+                if merge_matches.is_present("rev2") {
+                    rev2 = merge_matches.value_of("rev2").unwrap().to_string();
+                }
+                args.push(&rev1);
+                args.push(&rev2);
+                cmd::command("merge".to_string(), args);
             }
             None => println!("No subcommand was used"),
             _ => unreachable!(), 

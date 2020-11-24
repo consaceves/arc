@@ -58,7 +58,42 @@ fn main() {
         )
         .get_matches();
 
-        if let Some(subcommand) = matches.subcommand_name() {
-            println!("'arc {}' was used", subcommand);
+        match matches.subcommand() {
+            Some(("init", init_matches)) => {
+                if init_matches.is_present("directory") {
+                    println!("New repository at {}", init_matches.value_of("directory").unwrap());
+                } else {
+                    println!("init was used without directory");
+                }
+            }
+            Some(("clone", clone_matches)) => {
+                println!("arc clone was used");
+            }
+            Some(("add", add_matches)) => {
+                println!("arc add was used");
+            }
+            Some(("remove", remove_matches)) => {
+                println!("arc remove was used");
+            }
+            Some(("status", status_matches)) => {
+                println!("arc status was used");
+            }
+            Some(("heads", heads_matches)) => {
+                println!("arc heads was used");
+            }
+            Some(("diff", diff_matches)) => {
+                println!("arc diff was used");
+            }
+            Some(("cat", cat_matches)) => {
+                println!("arc cat was used");
+            }
+            Some(("checkout", checkout_matches)) => {
+                println!("arc checkout was used");
+            }
+            Some(("commit", commit_matches)) => {
+                println!("arc commit was used");
+            }
+            None => println!("No subcommand was used"),
+            _ => unreachable!(), 
         }
 }

@@ -16,7 +16,7 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
                 repo_root_path = &directory;
             }*/
             repo::init_repo(repo_root_path);
-        },/*
+        },
         "print" => {
             let mut repo_root_path = &cwd;
             if args.len() >= 3 {
@@ -48,13 +48,13 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
                 r.print_repo();
                 r.save();
             }
-        },*/
+        },
         "commit" => {
             let repo_root_path = mach::find_repo_root_path(&cwd);
             let mut r = repo::open_repo(&repo_root_path);
             r.commit();
             r.save();
-        }, /*
+        }, 
         "checkout" => {
             if args.len() >= 3 {
                 let repo_root_path = mach::find_repo_root_path(&cwd);
@@ -62,7 +62,7 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
                 r.checkout(&args[2]);
                 r.save();
             }
-        },*/
+        },
         _ => println!("unknown command: {}", cmd_name),
     }
 }

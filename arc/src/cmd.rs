@@ -4,17 +4,12 @@ use std::env;
 use crate::mach;
 use crate::repo;
 
-pub fn command() {
-    let args: Vec<String> = env::args().collect();
+pub fn command(cmd_name: String, args: Vec<&String>) {
     let cwd = mach::get_cwd();
-    
-    let cmd_name = &args[1];
+
     match &cmd_name[..] {
         "init" => {
-            let mut repo_root_path = &cwd;
-            if args.len() >= 3 {
-                repo_root_path = &args[2];
-            }
+            let mut repo_root_path = &args[0];
             repo::init_repo(repo_root_path);
         },
         "print" => {
@@ -54,7 +49,7 @@ pub fn command() {
             let mut r = repo::open_repo(&repo_root_path);
             r.commit();
             r.save();
-        },
+        }, 
         "checkout" => {
             if args.len() >= 3 {
                 let repo_root_path = mach::find_repo_root_path(&cwd);

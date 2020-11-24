@@ -17,6 +17,11 @@ fn main() {
                 .arg(Arg::new("directory").about("Directory path").required(false))        
             )
         .subcommand(
+            App::new("print")
+                .about("Prints a repository")
+                .arg(Arg::new("path").about("The repository user wants to print").required(false)),
+        )
+        .subcommand(
             App::new("clone")
                 .about("Clone a repository")
                 .arg(Arg::new("repository").about("The repository user wants to clone").required(true)),
@@ -69,6 +74,17 @@ fn main() {
                 }
                 args.push(&directory);
                 cmd::command("init".to_string(), args)
+            }
+            Some(("print", print_matches)) => {
+                let mut args = Vec::new();
+                let mut path = String::new();
+                if print_matches.is_present("path") {
+                    path = print_matches.value_of("path").unwrap().to_string();
+                } else {
+                    path = mach::get_cwd();
+                }
+                args.push(&path);
+                cmd::command("print".to_string(), args)
             }
             Some(("clone", clone_matches)) => {
                 println!("arc clone was used");

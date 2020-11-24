@@ -13,10 +13,7 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
             repo::init_repo(repo_root_path);
         },
         "print" => {
-            let mut repo_root_path = &cwd;
-            if args.len() >= 3 {
-                repo_root_path = &args[2];
-            }
+            let mut repo_root_path = &args[0];
             let r = repo::open_repo(repo_root_path);
             r.print_repo();
         },

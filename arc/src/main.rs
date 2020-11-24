@@ -61,7 +61,11 @@ fn main() {
         match matches.subcommand() {
             Some(("init", init_matches)) => {
                 if init_matches.is_present("directory") {
-                    println!("New repository at {}", init_matches.value_of("directory").unwrap());
+                    let directory = init_matches.value_of("directory").unwrap();
+                    println!("New repository at {}", directory);
+                    
+                    //cmd::command("init".to_string(), directory.to_string())
+                    //Needs to be modified to work properly
                 } else {
                     println!("init was used without directory");
                 }

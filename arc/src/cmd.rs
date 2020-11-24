@@ -56,20 +56,18 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
             r.save();
         },
         "clone" => {
-            if args.len() >= 3 {
-                let src_repo_path = mach::find_repo_root_path(&args[2]);
-                let dst_repo_path = if args.len() >= 4 { &args[3] } else { &cwd };
-                
-                repo::init_repo(&dst_repo_path);
-                
-                let src_r = repo::open_repo(&src_repo_path);
-                let mut dst_r = repo::open_repo(&dst_repo_path);
-                
-                dst_r.set_upstream(&src_repo_path);
-                dst_r.copy_from(&src_r);
-                dst_r.checkout(&src_r.cur_rev);
-                dst_r.save();
-            }
+            let src_repo_path = mach::find_repo_root_path(&args[0]);
+            let dst_repo_path = &args[1];
+            
+            repo::init_repo(&dst_repo_path);
+            
+            let src_r = repo::open_repo(&src_repo_path);
+            let mut dst_r = repo::open_repo(&dst_repo_path);
+            
+            dst_r.set_upstream(&src_repo_path);
+            dst_r.copy_from(&src_r);
+            dst_r.checkout(&src_r.cur_rev);
+            dst_r.save();
         },
         "push" => {
             let local_repo_path = mach::find_repo_root_path(&cwd);

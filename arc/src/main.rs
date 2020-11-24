@@ -24,7 +24,8 @@ fn main() {
         .subcommand(
             App::new("clone")
                 .about("Clone a repository")
-                .arg(Arg::new("repository").about("The repository user wants to clone").required(true)),
+                .arg(Arg::new("src").about("The source repository").required(true))
+                .arg(Arg::new("dst").about("The destination repository").required(false))
         )
         .subcommand(
             App::new("add")
@@ -64,6 +65,14 @@ fn main() {
                 .arg(Arg::new("rev1").about("First revision to merge").required(true))
                 .arg(Arg::new("rev2").about("Second revision to merge").required(true))
         )
+        .subcommand(
+            App::new("push")
+                .about("Push changes")
+        )
+        .subcommand(
+            App::new("pull")
+                .about("Pull changes")
+        )
         .get_matches();
 
         match matches.subcommand() {
@@ -90,7 +99,20 @@ fn main() {
                 cmd::command("print".to_string(), args)
             }
             Some(("clone", clone_matches)) => {
-                println!("arc clone was used");
+                let mut args = Vec::new();
+                let mut src = String::new();
+                let mut dst = String::new();
+                if clone_matches.is_present("src") {
+                    src = clone_matches.value_of("src").unwrap().to_string();
+                }
+                args.push(&src);
+                if clone_matches.is_present("dst") {
+                    dst = clone_matches.value_of("dst").unwrap().to_string();
+                } else {
+                    dst = mach::get_cwd();
+                }
+                args.push(&dst);
+                cmd::command("clone".to_string(), args)
             }
             Some(("add", add_matches)) => {
                 let mut args = Vec::new();
@@ -130,7 +152,6 @@ fn main() {
             }
             Some(("commit", commit_matches)) => {
                 let args = Vec::new();
-                println!("arc commit was used");
                 cmd::command("commit".to_string(), args)
             }
             Some(("merge", merge_matches)) => {
@@ -146,6 +167,14 @@ fn main() {
                 args.push(&rev1);
                 args.push(&rev2);
                 cmd::command("merge".to_string(), args);
+            }
+            Some(("push", push_matches)) => {
+                let args = Vec::new();
+                cmd::command("push".to_string(), args)
+            }
+            Some(("pull", pull_matches)) => {
+                let args = Vec::new();
+                cmd::command("pull".to_string(), args)
             }
             None => println!("No subcommand was used"),
             _ => unreachable!(), 

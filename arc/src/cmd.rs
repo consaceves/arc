@@ -63,6 +63,14 @@ pub fn command() {
                 r.save();
             }
         },
+        "merge" => {
+            if args.len() >= 4 {
+                let repo_root_path = mach::find_repo_root_path(&cwd);
+                let mut r = repo::open_repo(&repo_root_path);
+                r.merge(&args[2], &args[3]);
+                r.save();
+            }
+        },
         _ => println!("unknown command: {}", cmd_name),
     }
 }

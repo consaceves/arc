@@ -81,7 +81,6 @@ fn main() {
                 }
                 args.push(&path);
                 cmd::command("add".to_string(), args);
-                println!("arc add was used");
             }
             Some(("remove", remove_matches)) => {
                 println!("arc remove was used");

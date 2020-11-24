@@ -11,17 +11,28 @@ echo Commit
 ../target/debug/arc commit
 echo
 
-echo Add 1
+echo Add 2
 ../target/debug/arc add $(pwd)/2.txt
 echo
 echo Commit
 ../target/debug/arc commit
 echo
 
-echo Add 1
+echo Add 3.1
+cp 3.1.txt 3.txt
 ../target/debug/arc add $(pwd)/3.txt
 echo
 echo Commit
+../target/debug/arc commit
+echo
+
+echo Commit 3.2
+cp 3.2.txt 3.txt
+../target/debug/arc commit
+echo
+
+echo Commit 3.3
+cp 3.3.txt 3.txt
 ../target/debug/arc commit
 echo
 

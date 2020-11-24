@@ -1,10 +1,11 @@
 use std::env;
 use std::path::Path;
 use std::fs;
-use std::io;
+//use std::io;
 use std::io::prelude::*;
 use std::fs::File;
-use std::io::{Write, BufReader, BufRead};
+use std::io::Write;
+//use std::io::{Write, BufReader, BufRead};
 use std::path::PathBuf;
 
 pub fn get_cwd() -> String {
@@ -27,14 +28,14 @@ pub fn create_dir(path: &String, name: &String) {
     fs::create_dir_all(p).expect("Unable to create dir");
 }
 
-pub fn write_lines(path: &String, name: &String, lines: &Vec<String>) {
-    let p = Path::new(path).join(Path::new(name));
-    let mut f = File::create(p).expect("Unable to create file");
-    for l in lines {
-        f.write_all(l.as_bytes()).expect("Unable to write line");
-        f.write_all("\n".as_bytes()).expect("Unable to write line");
-    }
-}
+//pub fn write_lines(path: &String, name: &String, lines: &Vec<String>) {
+//    let p = Path::new(path).join(Path::new(name));
+//    let mut f = File::create(p).expect("Unable to create file");
+//    for l in lines {
+//        f.write_all(l.as_bytes()).expect("Unable to write line");
+//        f.write_all("\n".as_bytes()).expect("Unable to write line");
+//    }
+//}
 
 pub fn write_string(path: &String, name: &String, s: &String) {
     let p = Path::new(path).join(Path::new(name));
@@ -42,12 +43,12 @@ pub fn write_string(path: &String, name: &String, s: &String) {
     f.write_all(s.as_bytes()).expect("Unable to write line");
 }
 
-pub fn read_lines(path: &String, name: &String) -> Vec<String> {
-    let p = Path::new(path).join(Path::new(name));
-    let f = File::open(p).expect("Unable to open file");
-    let buf = BufReader::new(f);
-    buf.lines().map(|l| l.expect("Unable to read line")).collect()
-}
+//pub fn read_lines(path: &String, name: &String) -> Vec<String> {
+//    let p = Path::new(path).join(Path::new(name));
+//    let f = File::open(p).expect("Unable to open file");
+//    let buf = BufReader::new(f);
+//    buf.lines().map(|l| l.expect("Unable to read line")).collect()
+//}
 
 pub fn read_line(path: &String, name: &String) -> String {
     let p = Path::new(path).join(Path::new(name));
@@ -91,6 +92,13 @@ pub fn copy_files(dst_path: &String, src_path: &String, files: &Vec<String>) {
         println!("Copy {} -> {}", s, d);
         fs::copy(&s, &d).expect("Unable to copy file");
     }
+}
+
+pub fn copy_file(dst_path: &String, src_path: &String, f: &String) {
+    let d = join_paths(dst_path, &f);
+    let s = join_paths(src_path, &f);
+    println!("Copy {} -> {}", s, d);
+    fs::copy(&s, &d).expect("Unable to copy file");
 }
 
 pub fn del_files(base_path: &String, files: &Vec<String>) {

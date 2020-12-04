@@ -2,11 +2,9 @@ use std::env;
 use crate::mach;
 use crate::repo;
 
-pub fn command() {
-    let args: Vec<String> = env::args().collect();
+pub fn command(cmd_name: String, args: Vec<&String>) {
     let cwd = mach::get_cwd();
-    
-    let cmd_name = &args[1];
+
     match &cmd_name[..] {
         "init" => {
             let repo_root_path = &args[0];

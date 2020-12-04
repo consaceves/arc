@@ -1,4 +1,5 @@
-use std::env;
+use clap::{App, Arg};
+
 mod cmd;
 mod mach;
 mod revid;

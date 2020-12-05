@@ -5,6 +5,7 @@ mod mach;
 mod revid;
 mod repo;
 mod rev;
+mod merge;
 
 fn main() {
     let matches = App::new("arc")

@@ -11,7 +11,6 @@ use std::path::PathBuf;
 
 pub fn get_cwd() -> String { // cwd = current working directory
     let cwd = env::current_dir().unwrap().into_os_string().into_string().unwrap();
-    //println!("{}", cwd);
     cwd
 }
 
@@ -20,13 +19,21 @@ pub fn join_paths(path1: &String, path2: &String) -> String {
     p.to_string_lossy().to_string()
 }
 
+pub fn check_path(path: &String) -> bool {
+    Path::new(path).exists()
+}
+
 pub fn check_repo_dir(path: &String) -> bool {
     Path::new(path).join(Path::new(".arc")).exists()
 }
 
-pub fn create_dir(path: &String, name: &String) {
-    let p = Path::new(path).join(Path::new(name));
-    fs::create_dir_all(p).expect("Unable to create dir");
+//pub fn create_dir(path: &String, name: &String) {
+//    let p = Path::new(path).join(Path::new(name));
+//    fs::create_dir_all(p).expect("Unable to create dir");
+//}
+
+pub fn create_dir_all(path: &String) {
+    fs::create_dir_all(path).expect("Unable to create dir");
 }
 
 //pub fn write_lines(path: &String, name: &String, lines: &Vec<String>) {
@@ -90,19 +97,29 @@ pub fn find_rel_path(base_path: &String, full_path: &String) -> String {
     }
 }
 
-pub fn copy_files(dst_path: &String, src_path: &String, files: &Vec<String>) {
-    for f in files {
-        let d = join_paths(dst_path, &f);
-        let s = join_paths(src_path, &f);
-        println!("Copy {} -> {}", s, d);
-        fs::copy(&s, &d).expect("Unable to copy file");
-    }
+//pub fn copy_files(dst_path: &String, src_path: &String, files: &Vec<String>) {
+//    for f in files {
+//        let d = join_paths(dst_path, &f);
+//        let s = join_paths(src_path, &f);
+//        println!("Copy {} -> {}", s, d);
+//        fs::copy(&s, &d).expect("Unable to copy file");
+//    }
+//}
+
+pub fn extract_path(filename: &String) -> String {
+    let mut pbuf = PathBuf::from(filename);
+    pbuf.pop();
+    pbuf.to_string_lossy().to_string()
 }
 
 pub fn copy_file(dst_path: &String, src_path: &String, f: &String) {
     let d = join_paths(dst_path, &f);
     let s = join_paths(src_path, &f);
-    println!("Copy {} -> {}", s, d);
+    let d_path = extract_path(&d);
+    if !check_path(&d_path) {
+        create_dir_all(&d_path);
+    }
+    //println!("Copy {} -> {}", s, d);
     fs::copy(&s, &d).expect("Unable to copy file");
 }
 
@@ -110,9 +127,17 @@ pub fn del_files(base_path: &String, files: &Vec<String>) {
     for f in files {
         let p = join_paths(base_path, &f);
         if Path::new(&p).exists() {
-            println!("Del {}", p);
+            //println!("Del {}", p);
             fs::remove_file(&p).expect("Unable to delete file");
         }
+    }
+}
+
+pub fn del_file(base_path: &String, f: &String) {
+    let p = join_paths(base_path, &f);
+    if Path::new(&p).exists() {
+        //println!("Del {}", p);
+        fs::remove_file(&p).expect("Unable to delete file");
     }
 }
 

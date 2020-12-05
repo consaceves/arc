@@ -16,7 +16,7 @@ pub fn command(cmd_name: String, args: Vec<&String>) {
             println!("{}", r);
         },
         "add" => {
-            let file_abs_path = mach::join_paths(&cwd, &args[2]);
+            let file_abs_path = mach::join_paths(&cwd, &args[0]);
             let repo_root_path = mach::find_repo_root_path(&file_abs_path);
             let file_rel_path = mach::find_rel_path(&repo_root_path, &file_abs_path);
             

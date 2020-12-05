@@ -24,8 +24,8 @@ pub struct Rev {
 impl fmt::Display for RevInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Revision ID: {}\n", self.rev_id)?;
-        write!(f, "Parent ID (trunk): {}", self.parent_trunk)?;
-        write!(f, "Parent ID (other): {}", self.parent_other)?;
+        write!(f, "Parent ID (trunk): {}\n", self.parent_trunk)?;
+        write!(f, "Parent ID (other): {}\n", self.parent_other)?;
         write!(f, "All Files:\n")?;
         for l in &self.files {
             write!(f, "  {}\n", l.to_string())?;
@@ -39,7 +39,7 @@ impl fmt::Display for Rev {
         write!(f, "Root Path @ {}\n", self.root_path)?;
         write!(f, ".arc Path @ {}\n", self.arc_path)?;
         write!(f, "Revision Path @ {}\n", self.rev_path)?;
-        write!(f, "{}", self.rev)?;
+        write!(f, "{}\n", self.rev)?;
         Ok(())
     }
 }

@@ -24,8 +24,8 @@ pub struct Repo {
 impl fmt::Display for RepoInfo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Upstream @ {}\n", self.upstream)?;
-        write!(f, "Root @ {}", self.root_path)?;
-        write!(f, "Current Revision: {}", self.cur_rev)?;
+        write!(f, "Root @ {}\n", self.root_path)?;
+        write!(f, "Current Revision: {}\n", self.cur_rev)?;
         write!(f, "All Revisions:\n")?;
         for l in &self.all_revs {
             write!(f, "  {}\n", l.to_string())?;
@@ -42,7 +42,7 @@ impl fmt::Display for Repo {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "Root Path @ {}\n", self.root_path)?;
         write!(f, ".arc Path @ {}\n", self.arc_path)?;
-        write!(f, "{}", self.repo)?;
+        write!(f, "{}\n", self.repo)?;
         Ok(())
     }
 }

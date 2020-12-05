@@ -64,7 +64,7 @@ pub fn is_empty_path(pbuf: &PathBuf) -> bool {
     // Path::new("/") == pbuf
 
     // my attempted solution
-    pbuf.as_os_str() == std::ffi::OsStr::new("");
+    pbuf.as_os_str() == std::ffi::OsStr::new("")
 }
 
 pub fn find_repo_root_path(path: &String) -> String {

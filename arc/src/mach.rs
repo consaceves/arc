@@ -1,6 +1,7 @@
 use std::env;
 use std::path::Path;
 use std::fs;
+use std::ffi;
 //use std::io;
 use std::io::prelude::*;
 use std::fs::File;
@@ -8,7 +9,7 @@ use std::io::Write;
 //use std::io::{Write, BufReader, BufRead};
 use std::path::PathBuf;
 
-pub fn get_cwd() -> String {
+pub fn get_cwd() -> String { // cwd = current working directory
     let cwd = env::current_dir().unwrap().into_os_string().into_string().unwrap();
     //println!("{}", cwd);
     cwd
@@ -59,7 +60,11 @@ pub fn read_line(path: &String, name: &String) -> String {
 }
 
 pub fn is_empty_path(pbuf: &PathBuf) -> bool {
-    Path::new("/") == pbuf
+    // doesn't work on Windows bc assume "/" is root
+    // Path::new("/") == pbuf
+
+    // my attempted solution
+    pbuf.as_os_str() == std::ffi::OsStr::new("");
 }
 
 pub fn find_repo_root_path(path: &String) -> String {

@@ -85,6 +85,7 @@ $ cargo run push
 ````
 
 ### pull
+Retrieves most recent changes from origin.
 ````
 $ cargo run pull 
 ````

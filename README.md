@@ -3,6 +3,14 @@ DVCS system written in Rust
 CSC 253: Collaborative Programming and Software Design  
 Aceves, Zheng, Zimmerman  
 
+## Required installation of Rust and Cargo
+On Linux and macOS systems, this is done as follows:
+
+````
+$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+````
+Follow the directions on screen to conclude installation.
+
 ## How to run 
 ````
 $ cargo run
